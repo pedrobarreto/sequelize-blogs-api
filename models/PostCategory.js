@@ -4,5 +4,6 @@ const PostCategory = (sequelize, DataTypes) => sequelize.define('PostCategory', 
 }, {
   underscored: true,
   timestamps: false,
+  tableName: 'PostsCategories',
 });
 module.exports = PostCategory;

@@ -4,7 +4,7 @@ const User = (sequelize, DataTypes) => sequelize.define('User', {
   password: DataTypes.STRING,
   image: DataTypes.STRING,
 }, {
-  underscored: true,
+  tablename: 'Users',
   timestamps: false,
 });
 module.exports = User;
