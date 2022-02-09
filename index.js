@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/user/:id', authorization.validateAuth, user.validateId, userController.getUser);
 app.get('/user', authorization.validateAuth, userController.getUsers);
-app.post('/user', user.validateUser, userController.createUsers);
+app.post('/user', user.validateBody, userController.createUsers);
 app.post('/login', login.validateLogin, userController.getLogin);

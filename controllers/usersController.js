@@ -14,6 +14,13 @@ const getUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await service.getOneUser({ where: { id } });
+
+  res.status(200).json(user);
+};
+
 const getLogin = async (req, res) => {
   const token = await jwt.sign(req.body, 'SEGREDO', {
     algorithm: 'HS256',
@@ -26,5 +33,6 @@ const getLogin = async (req, res) => {
 module.exports = {
   createUsers,
   getUsers,
+  getUser,
   getLogin,
 };
