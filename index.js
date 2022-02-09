@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const userSchema = require('./middlewares/userValidation');
-const loginSchema = require('./middlewares/loginValidation');
+const user = require('./middlewares/userValidation');
+const login = require('./middlewares/loginValidation');
+const authorization = require('./middlewares/authValidation');
 const userController = require('./controllers/usersController');
 
 const app = express();
@@ -16,5 +17,6 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.post('/user', userSchema.validateUser, userController.createUsers);
-app.post('/login', loginSchema.validateLogin, userController.getLogin);
+app.get('/user', authorization.validateAuth, userController.getUsers);
+app.post('/user', user.validateUser, userController.createUsers);
+app.post('/login', login.validateLogin, userController.getLogin);
