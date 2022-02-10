@@ -5,8 +5,10 @@ const BlogPost = (sequelize, DataTypes) => sequelize.define('BlogPost', {
   published: DataTypes.DATE,
   updated: DataTypes.DATE,
 }, {
+  createdAt: 'published',
+  updatedAt: 'updated',
   tableName: 'BlogPosts',
-  timestamps: false,
+  timestamps: true,
 });
 
 module.exports = BlogPost;

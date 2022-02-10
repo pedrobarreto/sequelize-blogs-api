@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
 const service = require('../services/userService');
+const tokenJWT = require('../utils/tokenJWT');
 
 const createUsers = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -21,12 +21,11 @@ const getUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-const getLogin = async (req, res) => {
-  const token = await jwt.sign(req.body, 'SEGREDO', {
-    algorithm: 'HS256',
-    expiresIn: '1h',
-  });
-
+const loggedUser = async (req, res) => {
+  const { email } = req.body;
+  const { id } = await service.getOneUser({ where: { email } });
+  const token = await tokenJWT.signToken({ userId: id });
+  
   res.status(200).json({ token });
 };
 
@@ -34,5 +33,5 @@ module.exports = {
   createUsers,
   getUsers,
   getUser,
-  getLogin,
+  loggedUser,
 };

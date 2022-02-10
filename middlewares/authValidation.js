@@ -1,12 +1,14 @@
+ const tokenJWT = require('../utils/tokenJWT');
+ 
  module.exports = {
-  validateAuth(req, res, next) {
+  async validateAuth(req, res, next) {
     const { authorization } = req.headers;
+    const decode = await tokenJWT.decodeToken(authorization);
     if (!authorization) {
       return res.status(401).json({ message: 'Token not found' });
     }
-    if (authorization.length < 16) {
-      return res.status(401)
-      .json({ message: 'Expired or invalid token' });
+    if (decode.message) {
+      return res.status(401).json({ message: decode.message });
     }
     next();
   },

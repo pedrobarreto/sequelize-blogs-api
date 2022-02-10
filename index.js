@@ -1,12 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// validations
 const user = require('./middlewares/userValidation');
-const login = require('./middlewares/loginValidation');
 const category = require('./middlewares/categoryValidation');
 const auth = require('./middlewares/authValidation');
-const userController = require('./controllers/usersController');
-const categoriesController = require('./controllers/categoriesController');
+const post = require('./middlewares/blogPostValidation');
+
+// controllers
+const { validateLogin } = require('./middlewares/loginValidation');
+const { loggedUser, createUsers, getUsers, getUser } = require('./controllers/usersController');
+const { getCategories, createCategories } = require('./controllers/categoriesController');
+const { createPosts } = require('./controllers/blogPostsController');
 
 const app = express();
 
@@ -19,10 +25,15 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.get('/user/:id', auth.validateAuth, user.validateId, userController.getUser);
-app.get('/user', auth.validateAuth, userController.getUsers);
-app.get('/categories', auth.validateAuth, categoriesController.getCategories);
-app.post('/user', user.validateBody, userController.createUsers);
-app.post('/login', login.validateLogin, userController.getLogin);
-app.post('/categories', category.validateBody, auth.validateAuth, 
-categoriesController.createCategories);
+// User Endpoint
+app.get('/user', auth.validateAuth, getUsers);
+app.get('/user/:id', auth.validateAuth, user.validateId, getUser);
+app.post('/user', user.validateBody, createUsers);
+
+// Categories Endpoint
+app.get('/categories', auth.validateAuth, getCategories);
+app.post('/categories', category.validateBody, auth.validateAuth, createCategories);
+
+// BlogPosts Endpoint
+app.post('/login', validateLogin, loggedUser);
+app.post('/post', auth.validateAuth, post.validateBody, category.validateCategory, createPosts);
