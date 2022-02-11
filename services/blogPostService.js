@@ -1,4 +1,4 @@
-const { BlogPost, User } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const { decodeToken } = require('../utils/tokenJWT');
 
 const createPost = async ({ authorization, title, content, categoryIds }) => {
@@ -9,7 +9,9 @@ const { userId } = await decodeToken(authorization);
 const getAllPosts = async () => {
   try {
   return BlogPost.findAll({
-    include: [{ model: User, as: 'user' }],
+    include: 
+    [{ model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
   });
   } catch (e) {
   return { message: 'Erro' };

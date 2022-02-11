@@ -5,15 +5,15 @@ const BlogPost = sequelize.define('BlogPost', {
   userId: DataTypes.STRING,
   published: DataTypes.DATE,
   updated: DataTypes.DATE,
-}, {
-  createdAt: 'published',
-  updatedAt: 'updated',
+},
+ { createdAt: 'published',
+updatedAt: 'updated',
   tableName: 'BlogPosts',
-  timestamps: true,
-});
+timestamps: true });
 BlogPost.associate = (models) => {
-  BlogPost.belongsTo(models.User,
-    { foreignKey: 'id', as: 'user' });
-};
-return BlogPost;
+ BlogPost.belongsTo(models.User,
+  { foreignKey: 'id', as: 'user' });
+  BlogPost.belongsToMany(models.Category,
+  { foreignKey: 'postId', otherKey: 'categoryId', through: 'PostsCategories', as: 'categories' });
+}; return BlogPost; 
 };
