@@ -8,6 +8,14 @@ const createPosts = async (req, res) => {
   res.status(201).json(post);
 };
 
+const getPosts = async (req, res) => {
+  const { authorization } = req.headers;
+  const posts = await service.getAllPosts(authorization);
+
+  res.status(200).json(posts);
+};
+
 module.exports = { 
   createPosts,
+  getPosts,
 };

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const SECRET = process.env.JWT_SECRET;
 
-const signToken = async (email) =>
+const signToken = async (email) => 
  jwt.sign(email, SECRET, {
      algorithm: 'HS256',
      expiresIn: '1h',

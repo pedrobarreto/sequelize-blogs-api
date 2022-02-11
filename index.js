@@ -12,7 +12,7 @@ const post = require('./middlewares/blogPostValidation');
 const { validateLogin } = require('./middlewares/loginValidation');
 const { loggedUser, createUsers, getUsers, getUser } = require('./controllers/usersController');
 const { getCategories, createCategories } = require('./controllers/categoriesController');
-const { createPosts } = require('./controllers/blogPostsController');
+const { createPosts, getPosts } = require('./controllers/blogPostsController');
 
 const app = express();
 
@@ -30,10 +30,13 @@ app.get('/user', auth.validateAuth, getUsers);
 app.get('/user/:id', auth.validateAuth, user.validateId, getUser);
 app.post('/user', user.validateBody, createUsers);
 
+// Login Endpoint
+app.post('/login', validateLogin, loggedUser);
+
 // Categories Endpoint
 app.get('/categories', auth.validateAuth, getCategories);
 app.post('/categories', category.validateBody, auth.validateAuth, createCategories);
 
 // BlogPosts Endpoint
-app.post('/login', validateLogin, loggedUser);
+app.get('/post', auth.validateAuth, getPosts);
 app.post('/post', auth.validateAuth, post.validateBody, category.validateCategory, createPosts);
