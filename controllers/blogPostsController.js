@@ -9,13 +9,24 @@ const createPosts = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-  const { authorization } = req.headers;
-  const posts = await service.getAllPosts(authorization);
+  const posts = await service.getAllPosts();
 
   res.status(200).json(posts);
+};
+
+const getPost = async (req, res) => {
+  const { id } = req.params;
+  const post = await service.getOnePost(id);
+  
+  if (post.message) {
+    res.status(404).json(post);
+  }
+
+  res.status(200).json(post);
 };
 
 module.exports = { 
   createPosts,
   getPosts,
+  getPost,
 };
