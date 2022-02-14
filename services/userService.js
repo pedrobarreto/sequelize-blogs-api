@@ -8,8 +8,11 @@ const getOneUser = async (user) => User.findOne(user);
 const createUser = async ({ displayName, email, password, image }) => 
 User.create({ displayName, email, password, image });
 
+const deleteUser = async ({ id }) => User.destroy({ where: { id } }); 
+
 module.exports = {
   getAllUsers,
   getOneUser,
   createUser,
+  deleteUser,
 };

@@ -1,5 +1,5 @@
 const service = require('../services/userService');
-const tokenJWT = require('../utils/tokenJWT');
+const { decodeToken, signToken } = require('../utils/tokenJWT');
 
 const createUsers = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -24,9 +24,18 @@ const getUser = async (req, res) => {
 const loggedUser = async (req, res) => {
   const { email } = req.body;
   const { id } = await service.getOneUser({ where: { email } });
-  const token = await tokenJWT.signToken({ userId: id });
+  const token = await signToken({ userId: id });
   
   res.status(200).json({ token });
+};
+
+const deleteUsers = async (req, res) => {
+  const { authorization } = req.headers;
+  const { userId } = await decodeToken(authorization);
+  console.log(userId);
+  await service.deleteUser({ id: userId });
+
+  res.status(204).json();
 };
 
 module.exports = {
@@ -34,4 +43,5 @@ module.exports = {
   getUsers,
   getUser,
   loggedUser,
+  deleteUsers,
 };
