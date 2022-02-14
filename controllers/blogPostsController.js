@@ -19,7 +19,7 @@ const getPost = async (req, res) => {
   const post = await service.getOnePost(id);
   
   if (post.message) {
-    res.status(404).json(post);
+   return res.status(404).json(post);
   }
 
   res.status(200).json(post);
