@@ -1,5 +1,6 @@
 const schema = require('../utils/categorySchema');
 const { getOneCategory } = require('../services/categoryService');
+const updateSchema = require('../utils/blogUpdateSchema');
 
  module.exports = {
     async validateBody(req, res, next) {
@@ -19,5 +20,15 @@ async validateCategory(req, res, next) {
     } 
     next();
 },
-
+async blockCat(req, res, next) {
+    const { title, content, categoryIds } = req.body;
+    const { error } = updateSchema.validate({ title, content });
+    if (categoryIds) {
+      return res.status(400).json({ message: 'Categories cannot be edited' });
+       } 
+    if (error) {
+      return res.status(400).json({ message: error.message });
+       } 
+    next();
+  },
  };

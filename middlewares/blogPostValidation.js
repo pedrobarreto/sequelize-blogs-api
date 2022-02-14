@@ -2,6 +2,7 @@ const schema = require('../utils/blogPostSchema');
 
  module.exports = {
     async validateBody(req, res, next) {
+        console.log(req);
     const { title, content, categoryIds } = req.body;
     const { error } = schema.validate({ title, content, categoryIds });
 

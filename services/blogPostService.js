@@ -33,8 +33,13 @@ const getOnePost = async (id) => {
 }
 };
 
+const updatePost = async ({ id, title, content }) => 
+  BlogPost.update({ title, content },
+        { where: { id } }); 
+  
 module.exports = {
   createPost,
   getAllPosts,
   getOnePost,
+  updatePost,
 };
