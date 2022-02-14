@@ -1,8 +1,8 @@
 const schema = require('../utils/blogPostSchema');
+const service = require('../services/blogPostService');
 
  module.exports = {
     async validateBody(req, res, next) {
-        console.log(req);
     const { title, content, categoryIds } = req.body;
     const { error } = schema.validate({ title, content, categoryIds });
 
@@ -10,6 +10,16 @@ const schema = require('../utils/blogPostSchema');
    return res.status(400).json({ message: error.message });
     } 
     next();
+},
+async postNotFound(req, res, next) {
+    const { id } = req.params;
+    const post = await service.getOnePost(id);
+  
+    if (post.message) {
+     return res.status(404).json(post);
+    }
+
+next();
 },
 
  };

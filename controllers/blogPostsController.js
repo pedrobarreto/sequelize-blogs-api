@@ -18,10 +18,6 @@ const getPost = async (req, res) => {
   const { id } = req.params;
   const post = await service.getOnePost(id);
   
-  if (post.message) {
-   return res.status(404).json(post);
-  }
-
   res.status(200).json(post);
 };
 
@@ -34,9 +30,17 @@ const updatePosts = async (req, res) => {
   res.status(200).json(post);
 };
 
+const deletePosts = async (req, res) => {
+  const { id } = req.params;
+  await service.deletePost({ id: +id });
+
+  res.status(204).json();
+};
+
 module.exports = { 
   createPosts,
   getPosts,
   getPost,
   updatePosts,
+  deletePosts,
 };
