@@ -33,6 +33,36 @@ const getOnePost = async (id) => {
 }
 };
 
+const searchByTitle = async (query) => {
+  try {
+  const post = await BlogPost.findOne({
+    where: { title: query },
+    include: 
+    [{ model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+  if (!post) { return false; }
+    return [post];
+  } catch (e) {
+  return { message: 'Erro' };
+}
+};
+
+const searchByContent = async (query) => {
+  try {
+  const post = await BlogPost.findOne({
+    where: { content: query },
+    include: 
+    [{ model: User, as: 'user' },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  }); 
+   if (!post) { return false; }
+    return [post];
+  } catch (e) {
+  return { message: 'Erro' };
+}
+};
+
 const updatePost = async ({ id, title, content }) => 
   BlogPost.update({ title, content },
         { where: { id } }); 
@@ -45,4 +75,6 @@ module.exports = {
   getOnePost,
   updatePost,
   deletePost,
+  searchByTitle,
+  searchByContent,
 };

@@ -32,7 +32,6 @@ const loggedUser = async (req, res) => {
 const deleteUsers = async (req, res) => {
   const { authorization } = req.headers;
   const { userId } = await decodeToken(authorization);
-  console.log(userId);
   await service.deleteUser({ id: userId });
 
   res.status(204).json();

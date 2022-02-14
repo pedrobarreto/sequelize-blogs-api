@@ -12,7 +12,7 @@ updatedAt: 'updated',
 timestamps: true });
 BlogPost.associate = (models) => {
  BlogPost.belongsTo(models.User,
-  { foreignKey: 'id', as: 'user' });
+  { foreignKey: 'userId', as: 'user' });
   BlogPost.belongsToMany(models.Category,
   { foreignKey: 'postId', otherKey: 'categoryId', through: 'PostsCategories', as: 'categories' });
 }; return BlogPost; 

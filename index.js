@@ -13,7 +13,7 @@ const userCont = require('./controllers/usersController');
 const postCont = require('./controllers/blogPostsController');
 
 const { loggedUser, createUsers, getUsers, getUser, deleteUsers } = userCont;
-const { createPosts, getPosts, getPost, updatePosts, deletePosts } = postCont;
+const { createPosts, getPosts, getPost, updatePosts, deletePosts, searchPosts } = postCont;
 const { validateLogin } = require('./middlewares/loginValidation');
 const { getCategories, createCategories } = require('./controllers/categoriesController');
 
@@ -42,6 +42,7 @@ app.get('/categories', auth.validateAuth, getCategories);
 app.post('/categories', category.validateBody, auth.validateAuth, createCategories);
 
 // BlogPosts Endpoint
+app.get('/post/search', auth.validateAuth, searchPosts);
 app.get('/post', auth.validateAuth, getPosts);
 app.get('/post/:id', auth.validateAuth, post.postNotFound, getPost);
 app.post('/post', auth.validateAuth, post.validateBody, category.validateCategory, createPosts);
