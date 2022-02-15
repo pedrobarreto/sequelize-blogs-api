@@ -16,25 +16,25 @@ const getPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
   const { id } = req.params;
-  const post = await service.getOnePost(id);
+  const post = await service.filterPost('id', id);
   
   res.status(200).json(post);
 };
 
 const searchPosts = async (req, res) => {
   const { q: query } = req.query;
-  const title = await service.searchByTitle(query);
-  const content = await service.searchByContent(query);
+  const title = await service.filterPost('title', query);
+  const content = await service.filterPost('content', query);
 
 if (query === '') {
   const posts = await service.getAllPosts();
   return res.status(200).json(posts);
 }  
 if (title) {
-  return res.status(200).json(title);
+  return res.status(200).json([title]);
 } 
 if (content) {
-  return res.status(200).json(content);
+  return res.status(200).json([content]);
 } 
 return res.status(200).json([]);
 };
@@ -43,7 +43,7 @@ const updatePosts = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
   await service.updatePost({ id: +id, title, content });
-  const post = await service.getOnePost(id);
+  const post = await service.filterPost('id', id);
   
   res.status(200).json(post);
 };

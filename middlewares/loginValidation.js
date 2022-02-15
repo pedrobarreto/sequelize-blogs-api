@@ -8,7 +8,7 @@ const schema = require('../utils/loginSchema');
     const { error } = schema.validate({ email, password });
 
     if (email) { 
-      userExists = await service.getOneUser({ where: { email } });
+      userExists = await service.filterUser({ where: { email } });
       }
 
     if (error) {

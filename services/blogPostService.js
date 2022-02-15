@@ -18,46 +18,16 @@ const getAllPosts = async () => {
 }
 };
 
-const getOnePost = async (id) => {
+const filterPost = async (key, value) => {
   try {
   const post = await BlogPost.findOne({
-    where: { id },
+    where: { [key]: value },
     include: 
     [{ model: User, as: 'user' },
     { model: Category, as: 'categories', through: { attributes: [] } }],
   }); 
-    if (!post) { return { message: 'Post does not exist' }; }
+    if (!post) { return false; }
     return post;
-  } catch (e) {
-  return { message: 'Erro' };
-}
-};
-
-const searchByTitle = async (query) => {
-  try {
-  const post = await BlogPost.findOne({
-    where: { title: query },
-    include: 
-    [{ model: User, as: 'user' },
-    { model: Category, as: 'categories', through: { attributes: [] } }],
-  });
-  if (!post) { return false; }
-    return [post];
-  } catch (e) {
-  return { message: 'Erro' };
-}
-};
-
-const searchByContent = async (query) => {
-  try {
-  const post = await BlogPost.findOne({
-    where: { content: query },
-    include: 
-    [{ model: User, as: 'user' },
-    { model: Category, as: 'categories', through: { attributes: [] } }],
-  }); 
-   if (!post) { return false; }
-    return [post];
   } catch (e) {
   return { message: 'Erro' };
 }
@@ -72,9 +42,7 @@ const deletePost = async ({ id }) => BlogPost.destroy({ where: { id } });
 module.exports = {
   createPost,
   getAllPosts,
-  getOnePost,
+  filterPost,
   updatePost,
   deletePost,
-  searchByTitle,
-  searchByContent,
 };

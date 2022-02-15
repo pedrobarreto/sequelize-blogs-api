@@ -5,7 +5,7 @@ const getAllCategories = async () => Category.findAll({ raw: true });
 
 const createCategory = async ({ name }) => Category.create({ name });
 
-const getOneCategory = async (categoryIds) => {
+const filterCategory = async (categoryIds) => {
   let categoryNotFound = false;
   const categoryPromises = categoryIds.map(async (id) => {
   const validateCategory = await Category.findByPk(id); 
@@ -20,5 +20,5 @@ return categoryNotFound;
 module.exports = {
   getAllCategories,
   createCategory,
-  getOneCategory,
+  filterCategory,
 };

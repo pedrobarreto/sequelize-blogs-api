@@ -1,5 +1,5 @@
 const schema = require('../utils/categorySchema');
-const { getOneCategory } = require('../services/categoryService');
+const { filterCategory } = require('../services/categoryService');
 const updateSchema = require('../utils/blogUpdateSchema');
 
  module.exports = {
@@ -14,7 +14,7 @@ const updateSchema = require('../utils/blogUpdateSchema');
 },
 async validateCategory(req, res, next) {
     const { categoryIds } = req.body;
-    const category = await getOneCategory(categoryIds);
+    const category = await filterCategory(categoryIds);
     if (category) {
    return res.status(400).json({ message: '"categoryIds" not found' });
     } 

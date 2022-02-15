@@ -16,14 +16,14 @@ const getUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   const { id } = req.params;
-  const user = await service.getOneUser({ where: { id } });
+  const user = await service.filterUser({ where: { id } });
 
   res.status(200).json(user);
 };
 
 const loggedUser = async (req, res) => {
   const { email } = req.body;
-  const { id } = await service.getOneUser({ where: { email } });
+  const { id } = await service.filterUser({ where: { email } });
   const token = await signToken({ userId: id });
   
   res.status(200).json({ token });

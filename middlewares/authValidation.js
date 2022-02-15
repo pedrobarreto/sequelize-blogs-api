@@ -1,5 +1,5 @@
  const { decodeToken } = require('../utils/tokenJWT');
- const { getOnePost } = require('../services/blogPostService');
+ const { filterPost } = require('../services/blogPostService');
  
  module.exports = {
   async validateAuth(req, res, next) {
@@ -18,7 +18,7 @@
     const { authorization } = req.headers;
     const { id } = req.params;
     const { userId } = await decodeToken(authorization);
-    const { userId: IdFromDb } = await getOnePost(+id);
+    const { userId: IdFromDb } = await filterPost('id', +id);
     if (IdFromDb !== userId) { 
       return res.status(401).json({ message: 'Unauthorized user' });
     }

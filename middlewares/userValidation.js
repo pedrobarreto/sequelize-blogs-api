@@ -8,7 +8,7 @@ const schema = require('../utils/userSchema');
     const { error } = schema.validate({ displayName, email, password });
 
     if (email) { 
-    userExists = await service.getOneUser({ where: { email } });
+    userExists = await service.filterUser({ where: { email } });
     }
 
     if (error) {
@@ -22,7 +22,7 @@ const schema = require('../utils/userSchema');
 },
 async validateId(req, res, next) {
    const { id } = req.params;
-   const userExists = await service.getOneUser({ where: { id } });
+   const userExists = await service.filterUser({ where: { id } });
 
    if (!userExists) {
       return res.status(404).json({ message: 'User does not exist' });

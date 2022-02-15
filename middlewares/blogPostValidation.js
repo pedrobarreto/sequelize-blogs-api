@@ -13,10 +13,10 @@ const service = require('../services/blogPostService');
 },
 async postNotFound(req, res, next) {
     const { id } = req.params;
-    const post = await service.getOnePost(id);
+    const post = await service.filterPost('id', id);
   
-    if (post.message) {
-     return res.status(404).json(post);
+    if (!post) {
+     return res.status(404).json({ message: 'Post does not exist' });
     }
 
 next();
